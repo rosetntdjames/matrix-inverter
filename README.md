@@ -1,28 +1,11 @@
 # Xirtam
 
-An nteractive web application for calculating matrix inverses utilizing the Gauss-Jordan elimination algorithm. Built with React and designed for anyone learning Linear Algebra and Matrix Theory.
+An interactive web application for calculating matrix inverses utilizing the Gauss-Jordan elimination algorithm. Built with React and designed for anyone learning Linear Algebra and Matrix Theory.
 
 ![Matrix Inverter](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 
-## Features
-
-### Visual Enhancements
-- **Matrix Brackets** - Authentic mathematical notation with decorative brackets
-- **Determinant Display** - Shows the determinant value for invertible matrices
-- **Smooth Animations** - Premium micro-animations and transitions
-- **Color-Coded Results** - Visual feedback for correct/incorrect verifications
-- **Responsive Design** - Works beautifully on desktop and mobile devices
-
-### Keyboard Shortcuts
-- `Enter` - Calculate inverse
-- `Space` - Play/pause animation
-- `←/→` - Navigate between steps
-- `R` - Reset matrix
-- `E` - Load example
-- `C` - Copy result to clipboard
-
-### Educational Features
+###  Features
 - **Matrix Presets** - 13 pre-configured example matrices
   - Identity, Diagonal, Symmetric, Singular matrices
   - Covers 2×2, 3×3, and 4×4 sizes
@@ -36,12 +19,6 @@ An nteractive web application for calculating matrix inverses utilizing the Gaus
 - **Quick Size Selector** - Fast switching between 2×2, 3×3, 4×4
 - **Clear All Button** - Quickly reset all values
 - **Verification Mode** - Verify A × A⁻¹ = I
-
-### Accessibility
-- **Keyboard Navigation** - Full keyboard support
-- **Reduced Motion** - Respects user motion preferences
-- **Focus States** - Clear visual focus indicators
-- **Screen Reader Support** - ARIA labels throughout
 
 ## Getting Started
 
