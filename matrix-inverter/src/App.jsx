@@ -516,7 +516,7 @@ export default function MatrixInverter() {
       <div className="matrix-inverter-card">
         <div className="header">
           <div className="header-icon">
-            <Calculator className="icon" />
+            <img src="/xirtam.png" alt="Xirtam Logo" className="icon" />
           </div>
           <div className="header-text">
             <h1>Xirtam</h1>

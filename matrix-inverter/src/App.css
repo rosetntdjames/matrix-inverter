@@ -1,27 +1,17 @@
-/* ============================================
-   MATERIAL DESIGN - COMPLETE STYLESHEET
-   Matrix Inverter Application
-   ============================================ */
-
-/* CSS Variables - Design Tokens */
 :root {
-  /* Primary Colors */
   --color-primary: #6200ea;
   --color-primary-light: #7c4dff;
   --color-primary-dark: #4a00b8;
 
-  /* Secondary Colors */
   --color-secondary: #00bfa5;
   --color-secondary-light: #1de9b6;
   --color-secondary-dark: #00897b;
 
-  /* Semantic Colors */
   --color-success: #00c853;
   --color-error: #d50000;
   --color-warning: #ff6d00;
   --color-info: #2962ff;
 
-  /* Neutral Colors */
   --color-gray-50: #fafafa;
   --color-gray-100: #f5f5f5;
   --color-gray-200: #eeeeee;
@@ -33,25 +23,21 @@
   --color-gray-800: #424242;
   --color-gray-900: #212121;
 
-  /* Background Colors */
   --color-background: #fafafa;
   --color-surface: #ffffff;
   --color-surface-variant: #f5f5f5;
 
-  /* Text Colors */
   --color-text-primary: rgba(0, 0, 0, 0.87);
   --color-text-secondary: rgba(0, 0, 0, 0.60);
   --color-text-disabled: rgba(0, 0, 0, 0.38);
   --color-text-on-primary: #ffffff;
 
-  /* Elevation Shadows */
   --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   --shadow-2: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   --shadow-4: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   --shadow-8: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   --shadow-16: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
 
-  /* Spacing (4px base) */
   --spacing-1: 4px;
   --spacing-2: 8px;
   --spacing-3: 12px;
@@ -63,22 +49,18 @@
   --spacing-12: 48px;
   --spacing-16: 64px;
 
-  /* Border Radius */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 16px;
   --radius-full: 9999px;
 
-  /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Touch Targets (Mobile) */
   --touch-target-min: 44px;
 }
 
-/* Reset and Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -104,7 +86,6 @@ body {
   background: var(--color-background);
 }
 
-/* Container and Main Layout */
 .matrix-inverter-container {
   min-height: 100vh;
   background: linear-gradient(135deg, #ede7f6 0%, #f3e5f5 50%, #e1f5fe 100%);
@@ -115,7 +96,6 @@ body {
   position: relative;
 }
 
-/* Optional: Subtle background pattern */
 .matrix-inverter-container::before {
   content: '';
   position: absolute;
@@ -159,7 +139,6 @@ body {
   }
 }
 
-/* Header Styles */
 .header {
   display: flex;
   align-items: center;
@@ -218,7 +197,6 @@ body {
   font-weight: 400;
 }
 
-/* Controls Grid */
 .controls-grid {
   display: grid;
   grid-template-columns: minmax(200px, 1fr) minmax(300px, 2fr);
@@ -271,14 +249,12 @@ body {
   font-weight: 500;
 }
 
-/* Button Styles */
 .button-group {
   display: flex;
   align-items: flex-end;
   gap: var(--spacing-2);
 }
 
-/* Primary Button (Raised) */
 .btn-primary {
   flex: 1;
   min-height: var(--touch-target-min);
@@ -308,7 +284,6 @@ body {
   box-shadow: var(--shadow-1);
 }
 
-/* Icon Button */
 .btn-icon {
   min-width: var(--touch-target-min);
   min-height: var(--touch-target-min);
@@ -343,7 +318,6 @@ body {
   display: block;
 }
 
-/* Action Buttons */
 .action-buttons {
   display: flex;
   gap: var(--spacing-3);
@@ -352,7 +326,6 @@ body {
   animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.3s backwards;
 }
 
-/* Secondary Button (Outlined) */
 .btn-secondary {
   min-height: var(--touch-target-min);
   padding: var(--spacing-3) var(--spacing-6);
@@ -384,7 +357,6 @@ body {
   box-shadow: var(--shadow-1);
 }
 
-/* Quick Select Section */
 .quick-select-section {
   margin-bottom: var(--spacing-6);
   background: var(--color-surface-variant);
@@ -474,7 +446,6 @@ body {
   box-shadow: var(--shadow-4);
 }
 
-/* Fast Mode Toggle */
 .fast-mode-toggle {
   margin-bottom: var(--spacing-6);
   animation: fadeInDown 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.25s backwards;
@@ -539,7 +510,6 @@ body {
   font-weight: 500;
 }
 
-/* Input Section */
 .input-section {
   margin-bottom: var(--spacing-6);
   animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s backwards;
@@ -599,7 +569,6 @@ body {
   background: var(--color-gray-500);
 }
 
-/* Matrix Brackets */
 .matrix-container::before,
 .matrix-container::after {
   content: '';
@@ -662,7 +631,6 @@ body {
   transform: scale(1.05);
 }
 
-/* Result Section */
 .result-section {
   margin-bottom: var(--spacing-6);
   text-align: center;
@@ -675,7 +643,6 @@ body {
   align-items: center;
 }
 
-/* Fade In Animation */
 .fade-in {
   animation: fadeInScale 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -692,7 +659,6 @@ body {
   }
 }
 
-/* Alert Styles */
 .alert {
   border-radius: var(--radius-md);
   padding: var(--spacing-5);
@@ -864,7 +830,6 @@ body {
   box-shadow: var(--shadow-4);
 }
 
-/* Matrix Result */
 .matrix-result {
   display: inline-block;
   background: var(--color-surface);
@@ -912,7 +877,6 @@ body {
   box-shadow: var(--shadow-2);
 }
 
-/* Verification */
 .verification-result {
   display: inline-block;
   background: var(--color-surface);
@@ -987,7 +951,6 @@ body {
   }
 }
 
-/* Steps Section */
 .steps-section {
   background: var(--color-surface-variant);
   border: 1px solid var(--color-gray-200);
@@ -1003,7 +966,6 @@ body {
   margin: 0 0 var(--spacing-4) 0;
 }
 
-/* Steps Header */
 .steps-header {
   display: flex;
   justify-content: space-between;
@@ -1041,7 +1003,6 @@ body {
   transform: translateY(0);
 }
 
-/* Playback Controls */
 .playback-controls {
   display: flex;
   align-items: center;
@@ -1131,7 +1092,6 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Step Display */
 .step-display {
   display: flex;
   flex-direction: column;
@@ -1221,7 +1181,6 @@ body {
   }
 }
 
-/* All Steps View */
 .all-steps-container {
   display: flex;
   flex-direction: column;
@@ -1304,7 +1263,6 @@ body {
   margin-right: var(--spacing-1);
 }
 
-/* Toast Notifications */
 .toast {
   position: fixed;
   top: var(--spacing-8);
@@ -1360,7 +1318,6 @@ body {
   }
 }
 
-/* Matrix Result Brackets */
 .matrix-result::before,
 .matrix-result::after {
   content: '';
@@ -1385,7 +1342,6 @@ body {
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
-/* Step Matrix Brackets */
 .step-matrix::before,
 .step-matrix::after {
   content: '';
@@ -1410,7 +1366,6 @@ body {
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
-/* Verification Matrix Brackets */
 .verification-result::before,
 .verification-result::after {
   content: '';
@@ -1435,11 +1390,7 @@ body {
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
-/* ============================================
-   MOBILE RESPONSIVE STYLES
-   ============================================ */
-
-/* Tablet (600px - 960px) */
+/* Mobile Response */
 @media (max-width: 960px) {
   .controls-grid {
     grid-template-columns: 1fr;
@@ -1450,11 +1401,9 @@ body {
   }
 }
 
-/* Mobile (up to 600px) */
 @media (max-width: 600px) {
   :root {
     --touch-target-min: 48px;
-    /* Increase for mobile */
   }
 
   .matrix-inverter-container {
@@ -1533,7 +1482,6 @@ body {
   }
 }
 
-/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
 
   *,
@@ -1545,7 +1493,6 @@ body {
   }
 }
 
-/* Focus Styles for Accessibility */
 button:focus-visible,
 input:focus-visible,
 select:focus-visible {
@@ -1553,7 +1500,6 @@ select:focus-visible {
   outline-offset: 2px;
 }
 
-/* High Contrast Support */
 @media (prefers-contrast: high) {
   :root {
     --shadow-1: 0 2px 4px rgba(0, 0, 0, 0.3);
