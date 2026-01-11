@@ -16,6 +16,7 @@ export default function MatrixInverter() {
   const [copied, setCopied] = useState(false);
   const [determinant, setDeterminant] = useState(null);
   const [showAllSteps, setShowAllSteps] = useState(false);
+  const [selectedPreset, setSelectedPreset] = useState('');
 
   // Helper functions
   const gcd = (a, b) => {
@@ -189,12 +190,14 @@ export default function MatrixInverter() {
     setSize(n);
     setMatrix(Array(n).fill(null).map(() => Array(n).fill('')));
     resetResults();
+    setSelectedPreset(''); // Clear selected preset when size changes
   };
 
   const handleCellChange = (i, j, value) => {
     const newMatrix = matrix.map(row => [...row]);
     newMatrix[i][j] = value;
     setMatrix(newMatrix);
+    setSelectedPreset(''); // Clear preset when manually editing
   };
 
   const resetResults = () => {
@@ -215,6 +218,7 @@ export default function MatrixInverter() {
   const clearAllCells = () => {
     setMatrix(Array(size).fill(null).map(() => Array(size).fill('')));
     resetResults();
+    setSelectedPreset('');
     showToast('Matrix cleared', 'info');
   };
 
@@ -262,6 +266,7 @@ export default function MatrixInverter() {
     setSize(3);
     setMatrix(Array(3).fill(null).map(() => Array(3).fill('')));
     resetResults();
+    setSelectedPreset('');
     showToast('Reset to default 3×3 matrix', 'info');
   };
 
@@ -273,6 +278,7 @@ export default function MatrixInverter() {
     if (preset) {
       setMatrix(preset.matrix.map(row => [...row]));
       resetResults();
+      setSelectedPreset(presetName);
       showToast(`Loaded: ${preset.name}`, 'success');
     }
   };
@@ -313,7 +319,7 @@ export default function MatrixInverter() {
 
     const detEstimate = checkCondition(A);
     if (detEstimate !== null && detEstimate < 1e-10) {
-      setResult({ singular: true, message: 'Matrix is singular (determinant ≈ 0)' });
+      setResult({ singular: true, message: 'Matrix is singular! (determinant ≈ 0)' });
       setSteps(newSteps);
       setDeterminant(0);
       return;
@@ -433,6 +439,16 @@ export default function MatrixInverter() {
 
     const inverse = augmented.map(row => row.slice(n));
 
+    // Add final step showing the complete augmented matrix [I | A⁻¹]
+    if (shouldRecordStep('final')) {
+      newSteps.push({
+        description: 'Final Result: Successfully transformed [A | I] into [I | A⁻¹]',
+        matrix: augmented.map(row => [...row]),
+        highlightedRows: [],
+        isFinalResult: true
+      });
+    }
+
     // Check condition number estimate
     const checkInverseQuality = () => {
       let maxInvElement = 0;
@@ -508,59 +524,45 @@ export default function MatrixInverter() {
           </div>
         </div>
 
-        <div className="controls-grid">
-          <div className="control-group">
-            <label>Matrix Size (n × n)</label>
-            <select value={size} onChange={(e) => handleSizeChange(e.target.value)}>
-              {[2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
-                <option key={n} value={n}>{n} × {n}</option>
-              ))}
-            </select>
+        <div className="quick-select-section">
+          <div className="quick-select-header">
+            <label>Matrix Setup</label>
           </div>
 
-          <div className="button-group">
-            <button onClick={invertMatrix} className="btn-primary">
-              Calculate Inverse
-            </button>
-            <button onClick={resetMatrix} className="btn-icon" title="Reset">
-              <RotateCcw className="icon-small" />
-            </button>
-            <button onClick={loadExample} className="btn-icon" title="Load Example">
-              <Sparkles className="icon-small" />
-            </button>
-          </div>
-        </div>
+          <div className="quick-select-content">
+            {/* Size Selection */}
+            <div className="select-group">
+              <span className="select-group-label">Size:</span>
+              <div className="size-button-group">
+                {[2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
+                  <button
+                    key={n}
+                    onClick={() => handleSizeChange(n)}
+                    className={`btn-size ${size === n ? 'active' : ''}`}
+                  >
+                    {n}×{n}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-        <div className="quick-size-selector">
-          <label>Quick Select:</label>
-          <div className="size-button-group">
-            {[2, 3, 4].map(n => (
-              <button
-                key={n}
-                onClick={() => handleSizeChange(n)}
-                className={`btn-size ${size === n ? 'active' : ''}`}
-              >
-                {n}×{n}
-              </button>
-            ))}
+            {/* Preset Matrices */}
+            <div className="select-group">
+              <span className="select-group-label">Presets:</span>
+              <div className="preset-button-group">
+                {(matrixPresets[`${size}x${size}`] || []).map((preset, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => loadPreset(preset.name)}
+                    className={`btn-preset ${selectedPreset === preset.name ? 'active' : ''}`}
+                    title={preset.description}
+                  >
+                    {preset.name}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-
-        {/* Matrix Presets Selector */}
-        <div className="matrix-presets-selector">
-          <label>Load Preset Matrix:</label>
-          <select
-            onChange={(e) => e.target.value && loadPreset(e.target.value)}
-            value=""
-            className="preset-select"
-          >
-            <option value="">Choose a preset...</option>
-            {(matrixPresets[`${size}x${size}`] || []).map((preset, idx) => (
-              <option key={idx} value={preset.name}>
-                {preset.name} - {preset.description}
-              </option>
-            ))}
-          </select>
         </div>
 
         {size >= 5 && (
@@ -588,6 +590,8 @@ export default function MatrixInverter() {
                   <input
                     key={j}
                     type="text"
+                    inputMode="decimal"
+                    autoComplete="off"
                     value={cell}
                     onChange={(e) => handleCellChange(i, j, e.target.value)}
                     className="matrix-input"
@@ -599,6 +603,16 @@ export default function MatrixInverter() {
           </div>
         </div>
 
+        <div className="action-buttons">
+          <button onClick={invertMatrix} className="btn-primary">
+            Calculate Inverse
+          </button>
+          <button onClick={resetMatrix} className="btn-secondary" title="Reset Matrix">
+            <RotateCcw className="icon-small" />
+            Reset
+          </button>
+        </div>
+
         {result && (
           <div className="result-section fade-in">
             {result.singular ? (
@@ -607,10 +621,55 @@ export default function MatrixInverter() {
                   <AlertCircle className="alert-icon" />
                   <div>
                     <h3>Matrix Cannot Be Inverted</h3>
-                    <p>{result.message || 'This matrix is singular (determinant is zero). The rows are linearly dependent.'}</p>
-                    {result.column && (
-                      <p className="error-detail">Problem detected at column {result.column}</p>
-                    )}
+                    <p style={{ marginBottom: 'var(--spacing-3)' }}>
+                      {result.message || 'This matrix is singular (determinant is zero).'}
+                    </p>
+
+                    <div style={{
+                      background: 'rgba(0, 0, 0, 0.1)',
+                      padding: 'var(--spacing-4)',
+                      borderRadius: 'var(--radius-md)',
+                      marginTop: 'var(--spacing-3)'
+                    }}>
+                      <strong style={{ display: 'block', marginBottom: 'var(--spacing-2)' }}>
+                        Why can't this matrix be inverted?
+                      </strong>
+
+                      <p style={{ margin: 'var(--spacing-2) 0' }}>
+                        A matrix is <strong>singular</strong> (non-invertible) when its determinant equals zero.
+                        This happens when:
+                      </p>
+
+                      <ul style={{
+                        marginLeft: 'var(--spacing-6)',
+                        marginTop: 'var(--spacing-2)',
+                        lineHeight: '1.6'
+                      }}>
+                        <li><strong>Linear Dependence:</strong> One or more rows (or columns) can be expressed
+                          as a linear combination of other rows</li>
+                        <li><strong>Zero Row/Column:</strong> The matrix contains a row or column of all zeros</li>
+                        <li><strong>Proportional Rows:</strong> Two or more rows are scalar multiples of each other</li>
+                      </ul>
+
+                      {result.column && (
+                        <p style={{
+                          marginTop: 'var(--spacing-3)',
+                          padding: 'var(--spacing-2)',
+                          background: 'rgba(255, 255, 255, 0.1)',
+                          borderRadius: 'var(--radius-sm)',
+                          fontWeight: 600
+                        }}>
+                          ⚠️ Problem detected at column {result.column}: The pivot element was too small,
+                          indicating linear dependence in the columns.
+                        </p>
+                      )}
+
+                      <p style={{ marginTop: 'var(--spacing-3)', fontStyle: 'italic' }}>
+                        <strong>Mathematical implication:</strong> The system Ax = b either has no solution
+                        or infinitely many solutions, depending on b. The transformation collapses the space
+                        into a lower dimension.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -667,6 +726,38 @@ export default function MatrixInverter() {
                 {showVerification && (
                   <div className="alert alert-info fade-in">
                     <h3>Verification: A × A⁻¹ = I</h3>
+                    <p style={{ marginBottom: 'var(--spacing-4)', color: 'inherit' }}>
+                      To verify the inverse is correct, we multiply the original matrix A by its inverse A⁻¹.
+                      The result should be the identity matrix I.
+                    </p>
+
+                    <div style={{ marginBottom: 'var(--spacing-4)' }}>
+                      <strong>Matrix Multiplication Formula:</strong>
+                      <p style={{ margin: 'var(--spacing-2) 0', fontFamily: 'SF Mono, Monaco, monospace', fontSize: '0.875rem', color: 'inherit' }}>
+                        (A × A⁻¹)[i,j] = Σ(k=1 to n) A[i,k] × A⁻¹[k,j]
+                      </p>
+                    </div>
+
+                    <div style={{ marginBottom: 'var(--spacing-4)' }}>
+                      <strong>Example calculation for first element (row 1, col 1):</strong>
+                      <p style={{ margin: 'var(--spacing-2) 0', fontFamily: 'SF Mono, Monaco, monospace', fontSize: '0.875rem', color: 'inherit' }}>
+                        {(() => {
+                          if (!result || result.singular) return '';
+                          const A = result.originalMatrix;
+                          const Ainv = result.inverse;
+                          const terms = [];
+                          for (let k = 0; k < size; k++) {
+                            terms.push(`(${formatNumber(A[0][k])} × ${formatNumber(Ainv[k][0])})`);
+                          }
+                          const sum = terms.reduce((acc, term, k) =>
+                            acc + A[0][k] * Ainv[k][0], 0
+                          );
+                          return `${terms.join(' + ')} = ${formatNumber(sum)}`;
+                        })()}
+                      </p>
+                    </div>
+
+                    <strong>Result Matrix (A × A⁻¹):</strong>
                     <div className="verification-result">
                       {verifyInverse()?.map((row, i) => (
                         <div key={i} className="matrix-row">
@@ -675,6 +766,19 @@ export default function MatrixInverter() {
                               key={j}
                               className={`verify-cell ${Math.abs(cell - (i === j ? 1 : 0)) < 0.01 ? 'verify-correct' : 'verify-incorrect'
                                 }`}
+                              title={`c${toSubscript(i + 1)}${toSubscript(j + 1)} = ${(() => {
+                                if (!result || result.singular) return '';
+                                const A = result.originalMatrix;
+                                const Ainv = result.inverse;
+                                const terms = [];
+                                for (let k = 0; k < size; k++) {
+                                  terms.push(`a${toSubscript(i + 1)}${toSubscript(k + 1)}×b${toSubscript(k + 1)}${toSubscript(j + 1)}`);
+                                }
+                                const calculation = terms.join(' + ') + ' = ' + terms.map((term, k) =>
+                                  `${formatNumber(A[i][k])}×${formatNumber(Ainv[k][j])}`
+                                ).join(' + ');
+                                return calculation;
+                              })()}`}
                             >
                               {formatNumber(cell)}
                             </div>
@@ -682,6 +786,21 @@ export default function MatrixInverter() {
                         </div>
                       ))}
                     </div>
+
+                    <p style={{ marginTop: 'var(--spacing-4)', fontSize: '0.875rem', color: 'inherit' }}>
+                      <strong>✓ Hover over any cell</strong> to see its detailed calculation.
+                      {verifyInverse()?.every((row, i) =>
+                        row.every((cell, j) => Math.abs(cell - (i === j ? 1 : 0)) < 0.01)
+                      ) ? (
+                        <span style={{ display: 'block', marginTop: 'var(--spacing-2)', color: 'var(--color-success)' }}>
+                          ✓ All elements are correct! The inverse is verified.
+                        </span>
+                      ) : (
+                        <span style={{ display: 'block', marginTop: 'var(--spacing-2)', color: 'var(--color-error)' }}>
+                          ⚠ Some elements differ from the identity matrix. This may indicate numerical error.
+                        </span>
+                      )}
+                    </p>
                   </div>
                 )}
               </div>
