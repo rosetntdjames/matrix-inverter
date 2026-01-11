@@ -1,4 +1,4 @@
-# Matrix Inverter
+# Xirtam
 
 An nteractive web application for calculating matrix inverses utilizing the Gauss-Jordan elimination algorithm. Built with React and designed for anyone learning Linear Algebra and Matrix Theory.
 

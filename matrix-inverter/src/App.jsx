@@ -85,6 +85,12 @@ export default function MatrixInverter() {
     return simplifiedNum + '/' + simplifiedDen;
   };
 
+  // Convert number to subscript Unicode characters
+  const toSubscript = (num) => {
+    const subscripts = ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉'];
+    return num.toString().split('').map(digit => subscripts[parseInt(digit)]).join('');
+  };
+
   // Parse fractional input (e.g., "1/2" -> 0.5)
   const parseFraction = (input) => {
     if (typeof input !== 'string') return input;
@@ -253,8 +259,10 @@ export default function MatrixInverter() {
   };
 
   const resetMatrix = () => {
-    setMatrix(Array(size).fill(null).map(() => Array(size).fill('')));
+    setSize(3);
+    setMatrix(Array(3).fill(null).map(() => Array(3).fill('')));
     resetResults();
+    showToast('Reset to default 3×3 matrix', 'info');
   };
 
   const loadPreset = (presetName) => {
@@ -361,7 +369,7 @@ export default function MatrixInverter() {
         [augmented[col], augmented[pivotRow]] = [augmented[pivotRow], augmented[col]];
         if (shouldRecordStep('swap')) {
           newSteps.push({
-            description: `Swap row ${col + 1} ↔ row ${pivotRow + 1} to get larger pivot`,
+            description: `[Type I] E${toSubscript(col + 1)}${toSubscript(pivotRow + 1)}: Swap row ${col + 1} ↔ row ${pivotRow + 1}`,
             matrix: augmented.map(row => [...row]),
             highlightedRows: [col, pivotRow]
           });
@@ -375,7 +383,7 @@ export default function MatrixInverter() {
       }
       if (shouldRecordStep('pivot')) {
         newSteps.push({
-          description: `Scale row ${col + 1} by 1/${formatNumber(pivot)} to make pivot = 1`,
+          description: `[Type II] E${toSubscript(col + 1)}(1/${formatNumber(pivot)}): Multiply row ${col + 1} by 1/${formatNumber(pivot)}`,
           matrix: augmented.map(row => [...row]),
           highlightedRows: [col]
         });
@@ -391,7 +399,7 @@ export default function MatrixInverter() {
             }
             if (shouldRecordStep('eliminate')) {
               newSteps.push({
-                description: `Eliminate position [${row + 1}, ${col + 1}]: R${row + 1} = R${row + 1} - (${formatNumber(factor)}) × R${col + 1}`,
+                description: `[Type III] E${toSubscript(row + 1)}${toSubscript(col + 1)}(${formatNumber(-factor)}): Replace R${toSubscript(row + 1)} with R${toSubscript(row + 1)} + (${formatNumber(-factor)}) × R${toSubscript(col + 1)}`,
                 matrix: augmented.map(row => [...row]),
                 highlightedRows: [row, col]
               });
@@ -469,52 +477,6 @@ export default function MatrixInverter() {
     return product;
   };
 
-  // Keyboard shortcuts
-  useEffect(() => {
-    const handleKeyPress = (e) => {
-      // Don't trigger if user is typing in an input
-      if (e.target.tagName === 'INPUT') return;
-
-      switch (e.key.toLowerCase()) {
-        case 'enter':
-          invertMatrix();
-          break;
-        case ' ':
-          e.preventDefault();
-          if (steps.length > 0) {
-            setIsPlaying(!isPlaying);
-          }
-          break;
-        case 'arrowleft':
-          if (steps.length > 0 && currentStep > 0) {
-            setCurrentStep(prev => prev - 1);
-            setIsPlaying(false);
-          }
-          break;
-        case 'arrowright':
-          if (steps.length > 0 && currentStep < steps.length - 1) {
-            setCurrentStep(prev => prev + 1);
-            setIsPlaying(false);
-          }
-          break;
-        case 'r':
-          resetMatrix();
-          break;
-        case 'e':
-          loadExample();
-          break;
-        case 'c':
-          if (e.ctrlKey || e.metaKey) return; // Don't override Ctrl+C
-          copyToClipboard();
-          break;
-        default:
-          break;
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isPlaying, steps, currentStep, result]);
 
   // Animation playback
   useEffect(() => {
@@ -541,8 +503,8 @@ export default function MatrixInverter() {
             <Calculator className="icon" />
           </div>
           <div className="header-text">
-            <h1>Matrix Inverter</h1>
-            <p>Using Gauss-Jordan Algorithm</p>
+            <h1>Xirtam</h1>
+            <p>Invert matrices using the Gauss-Jordan Elimination Algorithm!</p>
           </div>
         </div>
 
@@ -560,14 +522,11 @@ export default function MatrixInverter() {
             <button onClick={invertMatrix} className="btn-primary">
               Calculate Inverse
             </button>
-            <button onClick={resetMatrix} className="btn-icon" title="Reset (R)">
+            <button onClick={resetMatrix} className="btn-icon" title="Reset">
               <RotateCcw className="icon-small" />
             </button>
-            <button onClick={loadExample} className="btn-icon" title="Load Example (E)">
+            <button onClick={loadExample} className="btn-icon" title="Load Example">
               <Sparkles className="icon-small" />
-            </button>
-            <button onClick={clearAllCells} className="btn-icon" title="Clear All">
-              <Trash2 className="icon-small" />
             </button>
           </div>
         </div>
@@ -683,7 +642,7 @@ export default function MatrixInverter() {
                       )}
                     </div>
                     <div className="result-actions">
-                      <button onClick={copyToClipboard} className="btn-copy" title="Copy to Clipboard (C)">
+                      <button onClick={copyToClipboard} className="btn-copy" title="Copy to Clipboard">
                         {copied ? <Check className="icon-small" /> : <Copy className="icon-small" />}
                         {copied ? 'Copied!' : 'Copy'}
                       </button>
@@ -821,11 +780,6 @@ export default function MatrixInverter() {
             </div>
           </div>
         )}
-
-        {/* Keyboard Shortcuts Help */}
-        <div className="keyboard-shortcuts-hint">
-          <span>Keyboard shortcuts: Enter (calculate) • Space (play/pause) • ← → (navigate steps) • R (reset) • E (example) • C (copy)</span>
-        </div>
       </div>
     </div>
   );
