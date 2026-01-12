@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AlertCircle, RotateCcw, Calculator, Play, Pause, SkipForward, SkipBack, CheckCircle, Sparkles, Copy, Check, Trash2 } from 'lucide-react';
+import { AlertCircle, RotateCcw, Calculator, Play, Pause, SkipForward, SkipBack, CheckCircle, Sparkles, Copy, Check, Trash2, Moon, Sun } from 'lucide-react';
 import './App.css';
 
 export default function MatrixInverter() {
@@ -17,6 +17,25 @@ export default function MatrixInverter() {
   const [determinant, setDeterminant] = useState(null);
   const [showAllSteps, setShowAllSteps] = useState(false);
   const [selectedPreset, setSelectedPreset] = useState('');
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('darkMode');
+    return saved ? JSON.parse(saved) : false;
+  });
+
+  // Dark mode effect
+  useEffect(() => {
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+    if (darkMode) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+  }, [darkMode]);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    showToast(darkMode ? 'Light mode enabled' : 'Dark mode enabled', 'info');
+  };
 
   // Helper functions
   const gcd = (a, b) => {
@@ -519,9 +538,12 @@ export default function MatrixInverter() {
             <img src="/xirtam.png" alt="Xirtam Logo" className="icon" />
           </div>
           <div className="header-text">
-            <h1>Xirtam</h1>
-            <p>Invert matrices using the Gauss-Jordan Elimination Algorithm!</p>
+            <h1>X I R T A M</h1>
+            <p>Invert matrices using the Gauss-Jordan Elimination Algorithm</p>
           </div>
+          <button onClick={toggleDarkMode} className="btn-theme-toggle" title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
+            {darkMode ? <Sun className="icon-small" /> : <Moon className="icon-small" />}
+          </button>
         </div>
 
         <div className="quick-select-section">
