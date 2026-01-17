@@ -1584,6 +1584,12 @@ body {
     font-size: 0.6875rem;
   }
 
+  .verify-cell {
+    width: 3rem;
+    height: 2.5rem;
+    font-size: 0.75rem;
+  }
+
   .toast {
     top: var(--spacing-4);
     right: var(--spacing-4);
@@ -1622,6 +1628,145 @@ body {
 
   .action-buttons button {
     width: 100%;
+  }
+
+  /* Enable horizontal scrolling for matrix containers */
+  .matrix-container,
+  .matrix-result,
+  .verification-result,
+  .step-matrix {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Ensure matrix content doesn't shrink below readable size */
+  .matrix-row {
+    min-width: min-content;
+  }
+}
+
+/* Additional mobile optimizations for larger matrices (6x6 and above) */
+@media (max-width: 600px) {
+
+  /* For 6x6 matrices and above, make cells even smaller */
+  .input-section label,
+  .result-section {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Smaller cells for larger matrices on mobile */
+  .matrix-input {
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+  }
+
+  .result-cell {
+    min-width: 2.75rem;
+    min-height: 2.25rem;
+    padding: var(--spacing-1);
+  }
+
+  .step-cell {
+    min-width: 2.5rem;
+    min-height: 2rem;
+    padding: var(--spacing-1);
+  }
+
+  .verify-cell {
+    min-width: 2.5rem;
+    min-height: 2rem;
+    padding: var(--spacing-1);
+  }
+
+  .step-cell-compact {
+    min-width: 2rem;
+    min-height: 1.75rem;
+    font-size: 0.625rem;
+  }
+}
+
+/* Extra small devices (phones in portrait mode) */
+@media (max-width: 400px) {
+  .matrix-inverter-card {
+    padding: var(--spacing-4);
+  }
+
+  .header {
+    gap: var(--spacing-3);
+  }
+
+  .header-text h1 {
+    font-size: 1.5rem;
+  }
+
+  .header-text p {
+    font-size: 0.8125rem;
+  }
+
+  /* Even smaller cells for very small screens */
+  .matrix-input {
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 0.75rem;
+    padding: var(--spacing-1);
+  }
+
+  .result-cell {
+    width: 2.5rem;
+    height: 2rem;
+    font-size: 0.6875rem;
+    padding: var(--spacing-1);
+  }
+
+  .step-cell {
+    width: 2.25rem;
+    height: 1.875rem;
+    font-size: 0.625rem;
+  }
+
+  .verify-cell {
+    width: 2.25rem;
+    height: 1.875rem;
+    font-size: 0.6875rem;
+  }
+
+  .step-cell-compact {
+    width: 1.75rem;
+    height: 1.5rem;
+    font-size: 0.5625rem;
+  }
+
+  /* Reduce matrix bracket sizes */
+  .matrix-container::before,
+  .matrix-container::after,
+  .matrix-result::before,
+  .matrix-result::after,
+  .verification-result::before,
+  .verification-result::after,
+  .step-matrix::before,
+  .step-matrix::after {
+    width: 6px;
+    border-width: 1.5px;
+  }
+
+  /* Tighter spacing */
+  .matrix-row {
+    gap: var(--spacing-1);
+  }
+
+  .matrix-container,
+  .matrix-result,
+  .verification-result {
+    padding: var(--spacing-4);
+  }
+
+  /* Smaller button sizes */
+  .btn-size,
+  .btn-preset {
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: 0.8125rem;
   }
 }
 
