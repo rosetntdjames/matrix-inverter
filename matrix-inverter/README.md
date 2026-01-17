@@ -1,49 +1,65 @@
-# Matrix Inverter
+# XIRTAM - Matrix Inverter
 
-An nteractive web application for calculating matrix inverses utilizing the Gauss-Jordan elimination algorithm. Built with React and designed for anyone learning Linear Algebra and Matrix Theory.
+An interactive web application for calculating matrix inverses using the Gauss-Jordan elimination algorithm. Built with React and designed with a premium Material Design aesthetic for students, educators, and anyone learning Linear Algebra.
 
-![Matrix Inverter](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![Material Design](https://img.shields.io/badge/Material%20Design-757575?style=for-the-badge&logo=material-design&logoColor=white)
 
-## Features
+## ✨ Features
 
-### Visual Enhancements
-- **Matrix Brackets** - Authentic mathematical notation with decorative brackets
-- **Determinant Display** - Shows the determinant value for invertible matrices
-- **Smooth Animations** - Premium micro-animations and transitions
-- **Color-Coded Results** - Visual feedback for correct/incorrect verifications
-- **Responsive Design** - Works beautifully on desktop and mobile devices
+### 🎨 Visual Design
+- **Material Design 3** - Modern, premium aesthetic with vibrant gradients
+- **Dark Mode** - Full dark theme support with persistent preference
+- **Authentic Math Notation** - Beautiful matrix brackets in proper mathematical style
+- **Smooth Animations** - Premium micro-interactions and transitions throughout
+- **Glassmorphism Effects** - Modern frosted-glass visual style
+- **Responsive Design** - Optimized for desktop, tablet, and mobile devices
+### 📚 Educational Tools
+- **Elementary Row Operations** - Formal notation (Type I, II, III) with subscript notation
+- **Matrix Presets Library** - Pre-configured example matrices:
+  - **2×2**: Simple, Identity, Diagonal, Singular
+  - **3×3**: Simple, Identity, Symmetric, Diagonal, Upper Triangular, Fractions
+  - **4×4**: Simple, Identity, Diagonal
+- **Step-by-Step Visualization** - Watch the Gauss-Jordan algorithm in action
+  - Playback controls (play, pause, step forward/back)
+  - Highlighted row operations
+  - Fast Mode for 5×5+ matrices (shows only key steps)
+- **Complete Solution View** - Toggle to see all steps at once
+- **Verification Mode** - Visual proof that A × A⁻¹ = I
+  - Shows matrix multiplication formula
+  - Example calculation for first element
+  - Color-coded correctness indicators
 
-### Keyboard Shortcuts
-- `Enter` - Calculate inverse
-- `Space` - Play/pause animation
-- `←/→` - Navigate between steps
-- `R` - Reset matrix
-- `E` - Load example
-- `C` - Copy result to clipboard
+### 🔢 Advanced Input
+- **Fractional Input Support** - Enter fractions directly:
+  - Examples: `1/2`, `3/4`, `-2/3`
+  - Automatically converts to decimal for calculation
+  - Results displayed as simplified fractions
+- **Large Matrix Support** - Handle matrices up to 10×10
+- **Determinant Display** - Shown for all invertible matrices
+- **Singular Matrix Detection** - Clear explanations when matrices can't be inverted
+- **Numerical Stability** - Partial pivoting and ill-conditioned matrix warnings
 
-### Educational Features
-- **Matrix Presets** - 13 pre-configured example matrices
-  - Identity, Diagonal, Symmetric, Singular matrices
-  - Covers 2×2, 3×3, and 4×4 sizes
-- **Fractional Input** - Enter fractions directly (e.g., `1/2`, `3/4`)
-- **Show All Steps** - Toggle between animation and complete solution view
-- **Step-by-Step Solution** - Watch the algorithm in action with playback controls
+### ⚡ User Experience
+- **One-Click Copy** - Copy inverse matrix to clipboard
+- **Toast Notifications** - Elegant feedback for all actions
+- **Quick Matrix Setup** - 
+  - Fast size switching (2×2 through 10×10)
+  - One-click preset loading
+  - Clear all button
+  - Reset to default
+- **Intuitive Controls** - Material Design buttons with hover effects
+- **Smooth Transitions** - All state changes animated elegantly
 
-### User Experience
-- **Copy to Clipboard** - One-click copy of inverse matrix
-- **Toast Notifications** - Visual feedback for all actions
-- **Quick Size Selector** - Fast switching between 2×2, 3×3, 4×4
-- **Clear All Button** - Quickly reset all values
-- **Verification Mode** - Verify A × A⁻¹ = I
+### ♿ Accessibility
+- **Keyboard Navigation** - Full keyboard support throughout
+- **Reduced Motion Support** - Respects user motion preferences
+- **High Contrast Mode** - Enhanced visibility for accessibility
+- **Touch-Friendly** - Minimum 44px touch targets on mobile
+- **Screen Reader Support** - Semantic HTML and ARIA labels
 
-### Accessibility
-- **Keyboard Navigation** - Full keyboard support
-- **Reduced Motion** - Respects user motion preferences
-- **Focus States** - Clear visual focus indicators
-- **Screen Reader Support** - ARIA labels throughout
-
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 - Node.js (v14 or higher)
@@ -74,80 +90,113 @@ npm run dev
 npm run build
 ```
 
-## Usage
+The production build will be in the `dist` directory.
 
-### Basic Usage
-1. Select matrix size (2×2 to 10×10)
-2. Enter values in the input cells
-3. Click "Calculate Inverse" or press `Enter`
-4. View the inverse matrix and step-by-step solution
+## 📖 Usage Guide
+
+### Basic Workflow
+1. **Select Size**: Choose matrix dimensions (2×2 to 10×10)
+2. **Input Values**: Either:
+   - Manually enter numbers or fractions
+   - Load a preset example
+3. **Calculate**: Click "Calculate Inverse" 
+4. **View Results**: See the inverse matrix with:
+   - Determinant value
+   - Step-by-step solution
+   - Verification option
 
 ### Using Presets
-1. Choose a preset from the dropdown menu
-2. Example presets include:
-   - Identity matrices
-   - Diagonal matrices
-   - Symmetric matrices
-   - Singular matrices (non-invertible)
-   - Fraction examples
+The preset library includes educational examples:
+- **Identity Matrices** - Their own inverse (A⁻¹ = A)
+- **Diagonal Matrices** - Easy to invert
+- **Symmetric Matrices** - A = Aᵀ
+- **Singular Matrices** - Non-invertible examples
+- **Fraction Examples** - Practice with rational numbers
 
-### Fractional Input
-Enter fractions directly in any cell:
-- `1/2` → 0.5
-- `3/4` → 0.75
-- `-1/3` → -0.333...
-
-### Step-by-Step Animation
-- Use playback controls to navigate through steps
-- Click "Show All Steps" to view complete solution
-- Watch the Gauss-Jordan algorithm in real-time
+### Step-by-Step Mode
+- **Animation Controls**: Play, pause, step forward/back through solution
+- **Row Highlighting**: See which rows are being operated on
+- **Elementary Row Notation**: Operations shown in formal notation
+  - Type I: E₁₂ (row swap)
+  - Type II: E₁(c) (scalar multiplication)
+  - Type III: E₁₂(c) (row replacement)
+- **Fast Mode**: For 5×5+ matrices, shows only pivotal steps
 
 ### Verification
-Click "Verify Result" to see A × A⁻¹ = I calculation with color-coded accuracy indicators.
+Click "Verify Result" to see mathematical proof:
+- Matrix multiplication formula
+- Detailed calculation example
+- Color-coded identity matrix (green = correct, red = error)
 
-## Technology Stack
+### Dark Mode
+- Click the sun/moon icon in the header
+- Preference saved automatically to localStorage
+- Optimized color schemes for both themes
 
-- **React** - UI framework
-- **Vite** - Build tool and dev server
-- **Lucide React** - Icon library
-- **CSS3** - Styling with glassmorphism and gradients
+## 🧮 The Algorithm
 
-## Educational Value
+### Gauss-Jordan Elimination
+The application implements the Gauss-Jordan method with numerical enhancements:
+
+1. **Augmentation**: Create [A | I] where I is the identity matrix
+2. **Partial Pivoting**: Select largest pivot to minimize rounding errors
+3. **Row Operations**: Apply Elementary Row Operations
+   - Type I: Swap rows
+   - Type II: Scale a row
+   - Type III: Add multiple of one row to another
+4. **Result**: Transform [A | I] into [I | A⁻¹]
+
+### Error Handling
+- **Singular Matrix Detection**: Identifies when det(A) = 0
+- **Ill-Conditioned Warnings**: Flags matrices sensitive to rounding errors
+- **Educational Explanations**: Clear descriptions of why inversion failed
+
+## 🛠️ Technology Stack
+
+- **React 18** - Modern UI framework with hooks
+- **Vite** - Lightning-fast build tool and dev server
+- **CSS3** - Custom variables, gradients, animations
+- **Lucide React** - Beautiful, consistent icon system
+- **Google Fonts** - SF Pro-inspired typography
+
+## 🎓 Educational Value
 
 Perfect for:
-- **Students** learning linear algebra and matrix operations
-- **Educators** demonstrating the Gauss-Jordan algorithm
-- **Researchers** verifying manual calculations
-- **Anyone** interested in understanding matrix inversion
+- **Linear Algebra Students** - Visualize the Gauss-Jordan algorithm
+- **Mathematics Educators** - Demonstrate matrix inversion interactively
+- **Researchers** - Quick verification of manual calculations
+- **Self-Learners** - Understand each step of the inversion process
 
-## Algorithm
+### Learning Features
+- Watch how Elementary Row Operations transform matrices
+- See the relationship between determinants and invertibility
+- Understand why some matrices can't be inverted
+- Verify results through matrix multiplication
 
-The application uses the Gauss-Jordan elimination method:
-1. Create augmented matrix [A | I]
-2. Apply row operations to transform left side to identity matrix
-3. The right side becomes A⁻¹
-4. Includes partial pivoting for numerical stability
+## 🤝 Contributing
 
-## Contributing
+Contributions are welcome! Ways to contribute:
+- 🐛 Report bugs or issues
+- 💡 Suggest new features or improvements
+- 🔧 Submit pull requests
+- 📖 Improve documentation
+- 🎨 Enhance UI/UX design
 
-Contributions are welcome! Feel free to:
-- Report bugs
-- Suggest new features
-- Submit pull requests
-
-## License
+## 📝 License
 
 This project is open source and available under the MIT License.
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
-- Built with modern web technologies
-- Inspired by educational mathematics tools
-- Designed for clarity and ease of use
+- Material Design 3 for design inspiration
+- Linear algebra educators for algorithmic guidance
+- React community for excellent tooling
+- Open source contributors
 
-## Contact
+## 📧 Contact
 
 Created by [@rosetntdjames](https://github.com/rosetntdjames)
 
 ---
 
+**Built with ❤️ for mathematics education**
