@@ -37,7 +37,17 @@ export default function MatrixInverter() {
     showToast(darkMode ? 'Light mode enabled' : 'Dark mode enabled', 'info');
   };
 
-  // Helper functions
+  /**
+   * Helper Functions for Mathematical Operations
+   */
+
+  /**
+   * Calculate the Greatest Common Divisor (GCD) using Euclidean algorithm
+   * Used for simplifying fractions in the display
+   * @param {number} a - First number
+   * @param {number} b - Second number
+   * @returns {number} Greatest common divisor of a and b
+   */
   const gcd = (a, b) => {
     a = Math.abs(Math.round(a));
     b = Math.abs(Math.round(b));
@@ -49,6 +59,12 @@ export default function MatrixInverter() {
     return a;
   };
 
+  /**
+   * Convert decimal number to fraction using continued fraction algorithm
+   * Implements the Farey sequence approximation method
+   * @param {number} decimal - Decimal number to convert
+   * @returns {Object} Object with numerator and denominator properties
+   */
   const toFraction = (decimal) => {
     if (Math.abs(decimal) < 1e-10) return { numerator: 0, denominator: 1 };
 
@@ -86,6 +102,12 @@ export default function MatrixInverter() {
     return { numerator: sign * numerator, denominator };
   };
 
+  /**
+   * Format a number as a simplified fraction or decimal
+   * Converts floating point results to readable fraction notation
+   * @param {number} num - Number to format
+   * @returns {string} Formatted number as string (fraction or decimal)
+   */
   const formatNumber = (num) => {
     if (Math.abs(num) < 1e-10) return '0';
 
@@ -105,13 +127,23 @@ export default function MatrixInverter() {
     return simplifiedNum + '/' + simplifiedDen;
   };
 
-  // Convert number to subscript Unicode characters
+  /**
+   * Convert number to subscript Unicode characters for mathematical notation
+   * Used in Elementary Row Operation notation (e.g., E₁₂, R₃)
+   * @param {number} num - Number to convert
+   * @returns {string} String with subscript Unicode characters
+   */
   const toSubscript = (num) => {
     const subscripts = ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉'];
     return num.toString().split('').map(digit => subscripts[parseInt(digit)]).join('');
   };
 
-  // Parse fractional input (e.g., "1/2" -> 0.5)
+  /**
+   * Parse fractional input from user (e.g., "1/2" -> 0.5)
+   * Supports both decimal and fraction notation
+   * @param {string|number} input - User input
+   * @returns {number} Decimal representation of the input
+   */
   const parseFraction = (input) => {
     if (typeof input !== 'string') return input;
     const trimmed = input.trim();
@@ -257,6 +289,13 @@ export default function MatrixInverter() {
     });
   };
 
+  /**
+   * Calculate the determinant of a matrix
+   * Uses direct calculation for 2x2 and 3x3, cofactor expansion for larger
+   * @param {Array<Array<number>>} matrix - Square matrix
+   * @param {number} n - Size of the matrix
+   * @returns {number} Determinant value
+   */
   const calculateDeterminant = (matrix, n) => {
     if (n === 1) return matrix[0][0];
     if (n === 2) {
@@ -311,6 +350,23 @@ export default function MatrixInverter() {
     }
   };
 
+  /**
+   * Main Algorithm: Gauss-Jordan Elimination for Matrix Inversion
+   * 
+   * This function implements the complete Gauss-Jordan elimination algorithm:
+   * 1. Creates augmented matrix [A | I]
+   * 2. Applies partial pivoting for numerical stability
+   * 3. Performs Elementary Row Operations (ERO) to transform [A | I] into [I | A⁻¹]
+   * 4. Returns the inverse matrix A⁻¹
+   * 
+   * Time Complexity: O(n³) where n is the matrix dimension
+   * Space Complexity: O(n²) for the augmented matrix
+   * 
+   * Error Handling:
+   * - Detects singular matrices (det = 0)
+   * - Warns about ill-conditioned matrices
+   * - Uses tolerance checks for numerical stability
+   */
   const invertMatrix = () => {
     const n = size;
     const newSteps = [];
@@ -366,8 +422,13 @@ export default function MatrixInverter() {
       });
     }
 
+    // Main loop: Process each column to achieve reduced row echelon form
     for (let col = 0; col < n; col++) {
-      // FIXED: Find pivot starting from current row (col), not col+1
+      /**
+       * Step 1: Partial Pivoting
+       * Find the row with the largest absolute value in the current column
+       * This minimizes rounding errors and improves numerical stability
+       */
       let pivotRow = col;
       let maxVal = Math.abs(augmented[col][col]);
 
@@ -389,7 +450,11 @@ export default function MatrixInverter() {
         return;
       }
 
-      // Swap rows if needed
+      /**
+       * Step 2: Row Swap (Elementary Row Operation Type I)
+       * If pivot is not in the diagonal position, swap rows
+       * Notation: E_ij swaps row i with row j
+       */
       if (pivotRow !== col) {
         [augmented[col], augmented[pivotRow]] = [augmented[pivotRow], augmented[col]];
         if (shouldRecordStep('swap')) {
@@ -401,7 +466,11 @@ export default function MatrixInverter() {
         }
       }
 
-      // Scale pivot row
+      /**
+       * Step 3: Row Scaling (Elementary Row Operation Type II)
+       * Scale the pivot row so the pivot element becomes 1
+       * Notation: E_i(c) multiplies row i by scalar c
+       */
       const pivot = augmented[col][col];
       for (let j = 0; j < 2 * n; j++) {
         augmented[col][j] /= pivot;
@@ -414,7 +483,11 @@ export default function MatrixInverter() {
         });
       }
 
-      // Eliminate column
+      /**
+       * Step 4: Row Elimination (Elementary Row Operation Type III)
+       * Eliminate all other entries in the current column to create zeros
+       * Notation: E_ij(c) replaces row i with row i + c × row j
+       */
       for (let row = 0; row < n; row++) {
         if (row !== col) {
           const factor = augmented[row][col];
@@ -434,7 +507,11 @@ export default function MatrixInverter() {
       }
     }
 
-    // Final check: verify we got identity on left side
+    /**
+     * Verification Step
+     * Verify that the left side of the augmented matrix is now the identity matrix
+     * If not, the matrix is ill-conditioned or singular
+     */
     let isIdentity = true;
     for (let i = 0; i < n; i++) {
       for (let j = 0; j < n; j++) {
@@ -493,6 +570,11 @@ export default function MatrixInverter() {
     setSteps(newSteps);
   };
 
+  /**
+   * Verify that A × A⁻¹ = I (Identity Matrix)
+   * Performs matrix multiplication to validate the inverse
+   * @returns {Array<Array<number>>} Product matrix A × A⁻¹
+   */
   const verifyInverse = () => {
     if (!result || result.singular) return null;
 
